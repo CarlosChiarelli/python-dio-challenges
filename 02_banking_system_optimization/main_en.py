@@ -14,7 +14,8 @@ def withdraw(*, balance, amount, statement, limit, withdrawals_count, max_withdr
         print("Operation failed! Invalid amount.")
     return balance, statement, withdrawals_count
 
-def deposit(balance, amount, statement):
+
+def deposit(balance, amount, statement, /):
     if amount > 0:
         balance += amount
         statement += f"Deposit: ${amount:.2f}\n"
@@ -23,11 +24,13 @@ def deposit(balance, amount, statement):
         print("Operation failed! Invalid amount.")
     return balance, statement
 
-def bank_statement(balance, *, statement):
+
+def bank_statement(balance, /, *, statement):
     print("\n================ STATEMENT ================")
     print("No transactions made." if not statement else statement)
     print(f"\nBalance: ${balance:.2f}")
     print("==========================================")
+
 
 def register_user(users):
     name = input("Enter name: ")
@@ -35,32 +38,29 @@ def register_user(users):
     cpf = input("Enter CPF (only numbers): ")
     address = input("Enter address (street, number - neighborhood - city/state): ")
 
-    if any(user['cpf'] == cpf for user in users):
+    if any(user["cpf"] == cpf for user in users):
         print("A user with this CPF already exists!")
     else:
-        users.append({
-            'name': name,
-            'birth_date': birth_date,
-            'cpf': cpf,
-            'address': address
-        })
+        users.append(
+            {"name": name, "birth_date": birth_date, "cpf": cpf, "address": address}
+        )
         print("User registered successfully!")
+
 
 def register_account(accounts, users):
     cpf = input("Enter the user's CPF: ")
-    user = next((user for user in users if user['cpf'] == cpf), None)
+    user = next((user for user in users if user["cpf"] == cpf), None)
 
     if user:
-        user_accounts = [account for account in accounts if account['user']['cpf'] == cpf]
+        user_accounts = [account for account in accounts if account["user"]["cpf"] == cpf]
         account_number = len(user_accounts) + 1
-        accounts.append({
-            'agency': '0001',
-            'account_number': account_number,
-            'user': user
-        })
+        accounts.append(
+            {"agency": "0001", "account_number": account_number, "user": user}
+        )
         print("Account registered successfully!")
     else:
         print("User not found! Account registration failed.")
+
 
 # Variable initialization
 balance = 0
@@ -92,9 +92,12 @@ while True:
     elif option == "w":
         amount = float(input("Enter the withdrawal amount: "))
         balance, statement, withdrawals_count = withdraw(
-            balance=balance, amount=amount, statement=statement, 
-            limit=limit, withdrawals_count=withdrawals_count, 
-            max_withdrawals=MAX_WITHDRAWALS
+            balance=balance,
+            amount=amount,
+            statement=statement,
+            limit=limit,
+            withdrawals_count=withdrawals_count,
+            max_withdrawals=MAX_WITHDRAWALS,
         )
 
     elif option == "s":
