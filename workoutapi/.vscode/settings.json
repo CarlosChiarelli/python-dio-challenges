@@ -1,0 +1,109 @@
+{
+    "extensions.ignoreRecommendations": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.executorMap": {
+        "python": "/workoutapi/.venv/bin/python"
+    },
+    "code-runner.ignoreSelection": true,
+    "code-runner.runInTerminal": true,
+    "editor.minimap.renderCharacters": false,
+    "editor.minimap.maxColumn": 110,
+    "editor.smoothScrolling": true,
+    "editor.minimap.showSlider": "always",
+    "editor.cursorBlinking": "phase",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "workbench.editor.enablePreviewFromCodeNavigation": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "material-icon-theme",
+    "debug.console.fontSize": 13,
+    "editor.fontFamily": "'JetBrains Mono', 'Fira Code Retina', Consolas, monospace",
+    "editor.fontLigatures": false,
+    "editor.fontSize": 13,
+    "editor.lineHeight": 18,
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [
+        110
+    ],
+    "flake8.args": [
+        "--max-line-length=110"
+    ],
+    "editor.tabSize": 4,
+    "editor.suggestSelection": "first",
+    "git.enableSmartCommit": true,
+    "git.openRepositoryInParentFolders": "always",
+    "terminal.integrated.fontSize": 13,
+    "terminal.integrated.fontFamily": "monospace",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    "breadcrumbs.enabled": false,
+    "editor.parameterHints.enabled": true,
+    "files.autoSave": "afterDelay",
+    "workbench.editor.enablePreview": false,
+    "explorer.compactFolders": false,
+    "window.zoomLevel": 1,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.wordWrap": "on",
+    "editor.minimap.enabled": false,
+    "editor.detectIndentation": false,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "prettier.singleQuote": true,
+    "prettier.arrowParens": "avoid",
+    "prettier.useTabs": true,
+    "python.testing.unittestEnabled": false,
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.defaultInterpreterPath": "/workoutapi/.venv/bin/python",
+    "python.poetryPath": "poetry",
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "black-formatter.args": [
+        "--line-length=110"
+    ],
+    "black-formatter.interpreter": [
+        "/workoutapi/.venv/bin/python"
+    ],
+    "peacock.remoteColor": "#1857a4",
+    "peacock.color": "#1857a4",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#1f6fd0",
+        "activityBar.background": "#1f6fd0",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#ee90bb",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#1f6fd0",
+        "statusBar.background": "#1857a4",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#1f6fd0",
+        "statusBarItem.remoteBackground": "#1857a4",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#1857a4",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#1857a499",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.pytestEnabled": true
+}
