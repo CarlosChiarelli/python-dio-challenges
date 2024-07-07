@@ -29,6 +29,3 @@ COPY . .
 RUN poetry install 
 # Run in PRODUCTION
 # RUN poetry install --without dev
-
-# install ollama
-RUN curl -fsSL https://ollama.com/install.sh | sh
