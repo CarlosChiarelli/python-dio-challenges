@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from workoutapi.categorias.models import CategoriaModel
@@ -18,11 +19,31 @@ router = APIRouter()
     response_model=CategoriaOut,
 )
 async def post(db_session: DatabaseDependency, categoria_in: CategoriaIn = Body(...)) -> CategoriaOut:
+    # Verificar se o nome da categoria já existe
+    existing_categoria = await db_session.execute(
+        select(CategoriaModel).where(CategoriaModel.nome == categoria_in.nome)
+    )
+    existing_categoria = existing_categoria.scalar()
+
+    if existing_categoria:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail=f"Já existe uma categoria cadastrada com o nome: {categoria_in.nome}",
+        )
+
+    # Se o nome não existe, criar e adicionar a nova categoria
     categoria_out = CategoriaOut(id=uuid4(), **categoria_in.model_dump())
     categoria_model = CategoriaModel(**categoria_out.model_dump())
 
-    db_session.add(categoria_model)
-    await db_session.commit()
+    try:
+        db_session.add(categoria_model)
+        await db_session.commit()
+    except IntegrityError:
+        await db_session.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao salvar a categoria no banco de dados.",
+        )
 
     return categoria_out
 

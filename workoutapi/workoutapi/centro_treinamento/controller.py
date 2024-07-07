@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from workoutapi.centro_treinamento.models import CentroTreinamentoModel
@@ -16,18 +17,38 @@ router = APIRouter()
 
 @router.post(
     path="/",
-    summary="Criar uma nova centro_treinamento",
+    summary="Criar uma novo centro de treinamento",
     status_code=status.HTTP_201_CREATED,
     response_model=CentroTreinamentoOut,
 )
 async def post(
     db_session: DatabaseDependency, centro_treinamento_in: CentroTreinamentoIn = Body(...)
 ) -> CentroTreinamentoOut:
+    # Verificar se o nome do centro de treinamento já existe
+    existing_centro = await db_session.execute(
+        select(CentroTreinamentoModel).where(CentroTreinamentoModel.nome == centro_treinamento_in.nome)
+    )
+    existing_centro = existing_centro.scalar()
+
+    if existing_centro:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail=f"Já existe um centro de treinamento cadastrado com o nome: {centro_treinamento_in.nome}",
+        )
+
+    # Se o nome não existe, criar e adicionar o novo centro de treinamento
     centro_treinamento_out = CentroTreinamentoOut(id=uuid4(), **centro_treinamento_in.model_dump())
     centro_treinamento_model = CentroTreinamentoModel(**centro_treinamento_out.model_dump())
 
-    db_session.add(centro_treinamento_model)
-    await db_session.commit()
+    try:
+        db_session.add(centro_treinamento_model)
+        await db_session.commit()
+    except IntegrityError:
+        await db_session.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao salvar o centro de treinamento no banco de dados.",
+        )
 
     return centro_treinamento_out
 
