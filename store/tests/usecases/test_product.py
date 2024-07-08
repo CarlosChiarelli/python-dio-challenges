@@ -2,6 +2,7 @@ from typing import List
 from uuid import UUID
 
 import pytest
+
 from store.core.exceptions import NotFoundException
 from store.schemas.product import ProductOut, ProductUpdateOut
 from store.usecases.product import product_usecase
@@ -41,6 +42,22 @@ async def test_usecases_update_should_return_success(product_up, product_inserte
     result = await product_usecase.update(id=product_inserted.id, body=product_up)
 
     assert isinstance(result, ProductUpdateOut)
+
+
+async def test_usecases_update_should_not_found(product_up):
+    uuid = UUID("1e4f214e-85f7-461a-89d0-a751a32e3bb9")
+    with pytest.raises(NotFoundException) as err:
+        product_up.price = "7.500"
+        await product_usecase.update(id=uuid, body=product_up)
+
+    assert err.value.message == f"Product not found with filter: {uuid}"
+
+
+async def test_usecases_update_should_update_update_at_field(product_up, product_inserted):
+    product_up.price = "7.500"
+    result = await product_usecase.update(id=product_inserted.id, body=product_up)
+    assert result.created_at != result.updated_at
+    assert result.created_at <= result.updated_at
 
 
 async def test_usecases_delete_should_return_success(product_inserted):
