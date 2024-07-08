@@ -2,12 +2,8 @@ from typing import List
 from uuid import UUID
 
 import pytest
-
-# from store.core.exceptions import NotFoundException
 from store.core.exceptions import NotFoundException
 from store.schemas.product import ProductOut, ProductUpdateOut
-
-# from store.schemas.product import ProductOut, ProductUpdateOut
 from store.usecases.product import product_usecase
 
 
@@ -26,7 +22,7 @@ async def test_usecases_get_should_return_success(product_inserted):
 
 
 async def test_usecases_get_should_not_found():
-    with pytest.raises(Exception) as err:
+    with pytest.raises(NotFoundException) as err:
         await product_usecase.get(id=UUID("1e4f214e-85f7-461a-89d0-a751a32e3bb9"))
 
     assert err.value.message == "Product not found with filter: 1e4f214e-85f7-461a-89d0-a751a32e3bb9"

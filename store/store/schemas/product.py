@@ -1,11 +1,7 @@
-import uuid
-from datetime import datetime
 from decimal import Decimal
 from typing import Annotated, Optional
-
 from bson import Decimal128
 from pydantic import AfterValidator, Field
-
 from store.schemas.base import BaseSchemaMixin, OutSchema
 
 
@@ -16,12 +12,10 @@ class ProductBase(BaseSchemaMixin):
     status: bool = Field(..., description="Product status")
 
 
-class ProductIn(ProductBase, BaseSchemaMixin):
-    pass
+class ProductIn(ProductBase, BaseSchemaMixin): ...
 
 
-class ProductOut(ProductIn, OutSchema):
-    pass
+class ProductOut(ProductIn, OutSchema): ...
 
 
 def convert_decimal_128(v):
@@ -37,5 +31,4 @@ class ProductUpdate(BaseSchemaMixin):
     status: Optional[bool] = Field(None, description="Product status")
 
 
-class ProductUpdateOut(ProductOut):
-    pass
+class ProductUpdateOut(ProductOut): ...

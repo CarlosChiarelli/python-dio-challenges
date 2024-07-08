@@ -19,4 +19,3 @@ def products_data():
             "status": False,
         },
     ]
-
