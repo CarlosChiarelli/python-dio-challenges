@@ -1,0 +1,61 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	"name": "Store Api",
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": ["../docker/docker-compose.yaml", "docker-compose.yml"],
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "store",
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/store",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {},
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+		"ghcr.io/wxw-matt/devcontainer-features/command_runner:0": {},
+		"ghcr.io/jayree/devcontainer-features/sf-autocomplete:1": {}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.debugpy",
+				"njpwerner.autodocstring",
+				"littlefoxteam.vscode-python-test-adapter",
+				"ms-python.mypy-type-checker",
+				"ms-python.black-formatter",
+				"ms-python.flake8",
+				"ms-python.isort",
+				"cstrap.python-snippets",
+				"damildrizzy.fastapi-snippets",
+				"esbenp.prettier-vscode",
+				"MS-CEINTL.vscode-language-pack-pt-BR",
+				"formulahendry.code-runner",
+				"eamodio.gitlens",
+				"rangav.vscode-thunder-client",
+				"dracula-theme.theme-dracula",
+				"pkief.material-icon-theme",
+				"johnpapa.vscode-peacock",
+				"visualstudioexptteam.vscodeintellicode",
+				"ms-toolsai.jupyter"
+			]
+		}
+	},
+	"postCreateCommand": "git config --global --add safe.directory /store && export POETRY_NO_INTERACTION=1 && export POETRY_VIRTUALENVS_IN_PROJECT=1 && export POETRY_VIRTUALENVS_CREATE=1 && export POETRY_CACHE_DIR=/tmp/poetry_cache && poetry install"
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
+}

@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  store:
+    build:
+      context: ../.
+      dockerfile: docker/Dockerfile.devcontainer
+    volumes:
+      - .:/store
+
+  db:
+    image: 'zcube/bitnami-compat-mongodb'
+    ports:
+      - 27017:27017
+    restart: on-failure
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=localhost
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+      - ME_CONFIG_BASICAUTH_USERNAME=root # Adicione um usuário básico (opcional)
+      - ME_CONFIG_BASICAUTH_PASSWORD=password # Adicione a senha para o usuário básico (opcional)
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_URL=mongodb://db:27017/
+    depends_on:
+      - db
+
+volumes:
+  mongodata:
+    driver: local
